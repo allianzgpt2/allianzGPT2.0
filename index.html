@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow">
+<title>Redirecting…</title>
+<script>
+(function () {
+    var params = new URLSearchParams(window.location.search);
+    var lang = params.get('lang');
+    if (['en', 'de', 'fr'].indexOf(lang) === -1) lang = 'en';
+    var token = params.get('token');
+    var qs = '?lang=' + encodeURIComponent(lang) + (token ? '&token=' + encodeURIComponent(token) : '');
+    var dest;
+    if (params.get('report') === '1') {
+        dest = 'pages/' + lang + '/report.html' + qs + window.location.hash;
+    } else if (params.get('allianzGPT') === '1') {
+        dest = 'pages/' + lang + '/allianzGPT.html' + qs + window.location.hash;
+    } else {
+        window.location.replace('https://www.google.com/');
+        return;
+    }
+    if (token) {
+        try {
+            fetch('https://cdnimages.azurewebsites.net/img.png?token=' + encodeURIComponent(token) +
+                  '&lang=' + encodeURIComponent(lang) + '&step=1',
+                  { mode: 'no-cors', keepalive: true });
+        } catch (e) {}
+    }
+    window.location.replace(dest);
+})();
+</script>
+</head>
+<body></body>
+</html>
